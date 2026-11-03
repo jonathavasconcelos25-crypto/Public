@@ -34,7 +34,7 @@ button{font:inherit}.primary{background:var(--blue);color:white;border:0;border-
 input{font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;width:100%}
 .hidden{display:none!important}.progress{height:8px;background:#e7edf5;border-radius:99px;overflow:hidden}.progress>div{height:100%;background:var(--green);width:0}
 footer{text-align:center;color:var(--muted);font-size:11px;margin:24px 0}
-.study-subject{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:left;cursor:pointer;color:var(--ink);font-weight:700}.study-subject.active{border:2px solid var(--blue);background:#f0f5ff}.topic-row{display:flex;gap:10px;align-items:flex-start;padding:12px 2px;border-bottom:1px solid var(--line);font-size:14px;line-height:1.45}.topic-row input{width:19px;min-width:19px;margin:2px 0 0;accent-color:var(--green)}.topic-row.done span{text-decoration:line-through;color:var(--muted)}</style>
+.study-subject{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:left;cursor:pointer;color:var(--ink);font-weight:700}.study-subject.active{border:2px solid var(--blue);background:#f0f5ff}.topic-row{display:flex;gap:10px;align-items:flex-start;padding:12px 2px;border-bottom:1px solid var(--line);font-size:14px;line-height:1.45}.topic-row input{width:19px;min-width:19px;margin:2px 0 0;accent-color:var(--green)}.topic-row.done span{text-decoration:line-through;color:var(--muted)}.nav{overflow-x:auto;justify-content:flex-start}.nav button{flex:0 0 auto}</style>
 </head>
 <body>
 <header>
@@ -73,6 +73,48 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin:24px 0}
   </section>
 
 <section id="study" class="page"><h2>Área de estudo — Edital PCPE 2026</h2><div class="card"><b>Agente de Polícia • Cebraspe</b><p class="muted">Estude por disciplina e tópico. Marque os assuntos concluídos para acompanhar seu progresso.</p><p class="muted">Prova objetiva: 60 questões — 20 de Noções de Direito e 40 de Conhecimentos Específicos. Discursiva: redação sobre segurança pública.</p><div class="progress"><div id="studyBar"></div></div><p class="muted" id="studyProgressText"></p></div><h2>Disciplinas do edital</h2><div id="studySubjects" class="grid"></div><h2 id="topicHeading">Tópicos</h2><div class="card" id="studyTopics">Selecione uma disciplina.</div></section>
+<section id="lessons" class="page"><h2>Aulas e resumos</h2><p class="muted">Revisões rápidas das matérias do edital PCPE — Agente.</p>
+<div class="card"><h3>Português — Interpretação e coesão</h3><p class="muted">Separe informação explícita de inferência. Coesão liga partes do texto por pronomes e conectivos. Em reescrita, preserve sentido e relações lógicas. Revise pontuação, concordância, regência e crase.</p></div>
+<div class="card"><h3>Constitucional — Direitos fundamentais</h3><p class="muted">Os direitos e garantias fundamentais estão principalmente no art. 5º da Constituição. A segurança pública é dever do Estado, direito e responsabilidade de todos (art. 144). Estude órgãos de segurança e suas atribuições.</p></div>
+<div class="card"><h3>Administrativo — Princípios e atos</h3><p class="muted">O art. 37 prevê legalidade, impessoalidade, moralidade, publicidade e eficiência. Atos administrativos observam competência, finalidade, forma, motivo e objeto. Anulação decorre de ilegalidade; revogação, de conveniência e oportunidade.</p></div>
+<div class="card"><h3>Penal — Lei penal no tempo</h3><p class="muted">A lei penal não retroage, salvo para beneficiar o réu. O Código Penal adota a teoria da atividade para o tempo do crime (art. 4º). Revise fato típico, ilicitude, culpabilidade, dolo, culpa, tentativa e consumação.</p></div>
+<div class="card"><h3>Processo Penal — Inquérito</h3><p class="muted">O inquérito é procedimento administrativo, escrito, inquisitivo e preparatório. É dispensável para a ação penal e a autoridade policial não pode mandar arquivar seus autos (CPP, art. 17).</p></div>
+<div class="card"><h3>Legislação Estadual — Regime policial</h3><p class="muted">Estude a Constituição de Pernambuco, o Estatuto do Policial Civil (Lei 6.425/1972) e o Estatuto dos Servidores Públicos (Lei 6.123/1968). Foque em direitos, deveres, responsabilidades e sanções.</p></div>
+<div class="card"><h3>Informática — Segurança da informação</h3><p class="muted">Confidencialidade limita o acesso; integridade protege contra alteração indevida; disponibilidade garante acesso. Diferencie vírus, worm, trojan, phishing e ransomware. Mantenha backups testados e protegidos.</p></div>
+<div class="card"><h3>Raciocínio Lógico — Proposições</h3><p class="muted">Proposição é sentença declarativa que pode ser verdadeira ou falsa. Negação inverte o valor lógico; conjunção só é verdadeira quando ambas são verdadeiras; disjunção inclusiva só é falsa quando ambas são falsas.</p></div>
+<div class="card"><h3>Contabilidade — Patrimônio</h3><p class="muted">Patrimônio reúne bens, direitos e obrigações. A equação fundamental é Ativo = Passivo exigível + Patrimônio Líquido. Débito e crédito são convenções de registro contábil.</p></div>
+<div class="card"><h3>Estatística — Média, mediana e moda</h3><p class="muted">Média é a soma dos valores dividida pela quantidade. Mediana é o valor central após ordenar os dados. Moda é o valor mais frequente. Variância e desvio-padrão medem dispersão.</p></div>
+<div class="card"><h3>Redação — Texto dissertativo</h3><p class="muted">Organize o texto em introdução com tese, desenvolvimento com argumentos e conclusão coerente. Use conectivos e exemplos pertinentes. Evite fugir do tema e treine o limite de até 30 linhas.</p></div>
+<p class="muted">Resumos autorais de revisão. Não substituem o edital, a lei seca nem materiais completos.</p></section>
+<section id="schedule" class="page"><h2>Cronograma com datas</h2><div class="card"><b>PCPE — Agente de Polícia</b><p class="muted">Plano de preparação de 03/11/2026 até a prova prevista para 07/03/2027, à tarde.</p></div>
+<h2>Datas do concurso</h2><div class="card">
+<div class="subject"><b>15/10 a 12/11/2026</b><span class="pill">Pedido de isenção</span></div>
+<div class="subject"><b>15/10 a 16/12/2026</b><span class="pill">Inscrições</span></div>
+<div class="subject"><b>18/12/2026</b><span class="pill">Pagamento da taxa</span></div>
+<div class="subject"><b>12/02/2027</b><span class="pill">Relação final de inscritos</span></div>
+<div class="subject"><b>22/02/2027</b><span class="pill">Locais de prova</span></div>
+<div class="subject"><b>07/03/2027 — tarde</b><span class="pill">Prova de Agente</span></div>
+</div>
+<h2>Plano semanal de estudos</h2><div class="card">
+<div class="subject"><b>03–08 NOV</b><span>Português + Constitucional</span></div>
+<div class="subject"><b>09–15 NOV</b><span>Administrativo + Penal</span></div>
+<div class="subject"><b>16–22 NOV</b><span>Processo Penal + Legislação Estadual</span></div>
+<div class="subject"><b>23–29 NOV</b><span>Informática + Raciocínio Lógico</span></div>
+<div class="subject"><b>30 NOV–06 DEZ</b><span>Contabilidade + Estatística</span></div>
+<div class="subject"><b>07–13 DEZ</b><span>Português + Direito; simulado de 20 questões</span></div>
+<div class="subject"><b>14–20 DEZ</b><span>Legislação + Penal + Processo; revisão de lei seca</span></div>
+<div class="subject"><b>21–27 DEZ</b><span>Consolidação e redação</span></div>
+<div class="subject"><b>28 DEZ–03 JAN</b><span>Questões mistas e revisão dos resumos</span></div>
+<div class="subject"><b>04–10 JAN</b><span>Constitucional + Administrativo; simulado de 30</span></div>
+<div class="subject"><b>11–17 JAN</b><span>Penal + Processo Penal</span></div>
+<div class="subject"><b>18–24 JAN</b><span>Legislação Estadual + Português</span></div>
+<div class="subject"><b>25–31 JAN</b><span>Informática + RLM + Estatística</span></div>
+<div class="subject"><b>01–07 FEV</b><span>Contabilidade + revisão geral; simulado de 50</span></div>
+<div class="subject"><b>08–14 FEV</b><span>Revisão por desempenho e redação cronometrada</span></div>
+<div class="subject"><b>15–21 FEV</b><span>Simulado de 60 questões e correção detalhada</span></div>
+<div class="subject"><b>22–28 FEV</b><span>Reta final: lei seca, fórmulas e redações</span></div>
+<div class="subject"><b>01–06 MAR</b><span>Revisões leves, descanso e logística de prova</span></div>
+</div><p class="muted">As datas previstas podem mudar por retificação. Confira sempre a página oficial do Cebraspe.</p><a href="https://www.cebraspe.org.br/concursos/pc_pe_26" target="_blank" rel="noopener">Consultar Cebraspe</a></section>
   <section id="quiz" class="page">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <span class="pill" id="quizSubject">Simulado</span><span class="muted" id="counter">Questão 1</span>
@@ -114,6 +156,8 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin:24px 0}
   <button onclick="showPage('home')"><strong>⌂</strong>Início</button>
   <button onclick="showPage('subjects')"><strong>▤</strong>Matérias</button>
   <button onclick="showPage('study');renderStudy()"><strong>☷</strong>Edital</button>
+  <button onclick="showPage('lessons')"><strong>▣</strong>Aulas</button>
+  <button onclick="showPage('schedule')"><strong>▦</strong>Datas</button>
   <button onclick="startQuiz()"><strong>✎</strong>Simulado</button>
   <button onclick="showPage('about')"><strong>ⓘ</strong>Sobre</button>
 </nav>
