@@ -1,0 +1,19 @@
+# Aprova Concursos — PCPE Agente
+
+Projeto PWA (aplicativo web instalável) para Android.
+
+## Conteúdo
+- `index.html`: aplicativo.
+- `manifest.webmanifest`: identificação e configuração de instalação.
+- `sw.js`: cache offline.
+- `icons/`: ícones do aplicativo.
+
+## Como publicar gratuitamente
+1. Extraia o ZIP.
+2. Publique os arquivos em um serviço de hospedagem estática HTTPS, por exemplo GitHub Pages.
+3. Abra o endereço HTTPS no Chrome do Android.
+4. Use **Instalar aplicativo** ou **Adicionar à tela inicial**.
+
+O service worker e a instalação PWA exigem HTTPS (ou localhost). Abrir o HTML diretamente como arquivo não instala o PWA.
+
+As questões incluídas são demonstrativas e inéditas para treinamento; não são questões oficiais do Cebraspe. Confira sempre o edital e suas retificações no site oficial da banca.

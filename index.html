@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#142b4d">
+<meta name="description" content="Aplicativo gratuito de estudos para concursos da Polícia Civil de Pernambuco.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Aprova Concursos — PCPE</title>
+<style>
+:root{--navy:#142b4d;--blue:#245da8;--bg:#f3f6fb;--card:#fff;--ink:#17243a;--muted:#68778d;--green:#168454;--line:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#142b4d,#245da8);color:white;padding:24px 18px 26px;border-radius:0 0 24px 24px}
+.brand{font-size:12px;letter-spacing:2px;font-weight:800;opacity:.8}.title{font-size:25px;font-weight:850;margin:7px 0 3px}.sub{font-size:13px;opacity:.85}
+.wrap{max-width:760px;margin:auto;padding:16px 14px 90px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:-3px}
+.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat b{display:block;font-size:21px;color:var(--navy)}.stat span{font-size:11px;color:var(--muted)}
+h2{font-size:18px;margin:23px 2px 11px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tile{background:white;border:1px solid var(--line);border-radius:15px;padding:15px;text-align:left;cursor:pointer;color:var(--ink);min-height:94px}
+.tile .emoji{font-size:23px}.tile b{display:block;margin-top:7px}.tile small{color:var(--muted)}
+button{font:inherit}.primary{background:var(--blue);color:white;border:0;border-radius:12px;padding:13px 16px;font-weight:750;width:100%;cursor:pointer}
+.secondary{background:#eaf1fb;color:var(--blue);border:0;border-radius:11px;padding:11px 13px;font-weight:700;cursor:pointer}
+.nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:flex;justify-content:center;gap:8px;padding:9px 8px calc(9px + env(safe-area-inset-bottom));z-index:4}
+.nav button{border:0;background:transparent;color:var(--muted);font-size:11px;padding:5px 10px;cursor:pointer}.nav button strong{display:block;font-size:19px}
+.page{display:none}.page.active{display:block}.muted{color:var(--muted);font-size:13px}
+.subject{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--line);gap:8px}
+.subject:last-child{border-bottom:0}.pill{font-size:11px;border-radius:99px;background:#eaf1fb;color:#245da8;padding:5px 8px}
+.question{font-size:16px;line-height:1.55;font-weight:650;margin:12px 0}
+.option{display:flex;gap:10px;align-items:flex-start;width:100%;padding:12px;margin:8px 0;background:white;border:1px solid var(--line);border-radius:12px;text-align:left;cursor:pointer;color:var(--ink)}
+.option.selected{border:2px solid var(--blue);background:#f0f5ff}.letter{font-weight:850;color:var(--blue);min-width:18px}
+.feedback{padding:13px;border-radius:12px;background:#eef6f1;margin:12px 0;font-size:14px;line-height:1.5}
+input{font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;width:100%}
+.hidden{display:none!important}.progress{height:8px;background:#e7edf5;border-radius:99px;overflow:hidden}.progress>div{height:100%;background:var(--green);width:0}
+footer{text-align:center;color:var(--muted);font-size:11px;margin:24px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">SEU TREINAMENTO COMEÇA AQUI</div>
+  <div class="title">APROVA CONCURSOS</div>
+  <div class="sub">Polícia Civil de Pernambuco • Agente de Polícia</div>
+<button id="installBtn" class="secondary hidden" style="margin-top:14px" onclick="installApp()">＋ Instalar no celular</button>
+</header>
+<main class="wrap">
+  <section id="home" class="page active">
+    <div class="stats">
+      <div class="stat"><b id="total">0</b><span>Respondidas</span></div>
+      <div class="stat"><b id="hits">0</b><span>Acertos</span></div>
+      <div class="stat"><b id="rate">0%</b><span>Aproveitamento</span></div>
+    </div>
+    <h2>Olá, futuro policial! 👮</h2>
+    <div class="card">
+      <b>Continue sua preparação</b>
+      <p class="muted">Pratique um pouco todos os dias e acompanhe sua evolução.</p>
+      <button class="primary" onclick="startQuiz()">Começar simulado</button>
+    </div>
+    <h2>Áreas de estudo</h2>
+    <div class="grid" id="homeSubjects"></div>
+    <h2>Seu progresso</h2>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:9px"><b>Aproveitamento geral</b><b id="rate2">0%</b></div>
+      <div class="progress"><div id="bar"></div></div>
+      <p class="muted" id="progressText">Responda questões para acompanhar seu desempenho.</p>
+    </div>
+  </section>
+
+  <section id="subjects" class="page">
+    <h2>Matérias</h2>
+    <p class="muted">Selecione uma disciplina para praticar questões.</p>
+    <div class="card" id="subjectList"></div>
+  </section>
+
+  <section id="quiz" class="page">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span class="pill" id="quizSubject">Simulado</span><span class="muted" id="counter">Questão 1</span>
+    </div>
+    <div class="progress" style="margin-top:12px"><div id="quizBar"></div></div>
+    <div class="question" id="questionText"></div>
+    <div id="options"></div>
+    <div id="feedback" class="feedback hidden"></div>
+    <button id="answerBtn" class="primary" onclick="answerQuestion()" disabled>Confirmar resposta</button>
+    <button id="nextBtn" class="primary hidden" style="margin-top:9px" onclick="nextQuestion()">Próxima questão</button>
+    <button class="secondary" style="width:100%;margin-top:10px" onclick="showPage('home')">Sair do simulado</button>
+  </section>
+
+  <section id="results" class="page">
+    <h2>Resultado do simulado</h2>
+    <div class="card" style="text-align:center">
+      <div style="font-size:42px">🏆</div>
+      <div style="font-size:34px;font-weight:850;color:var(--navy)" id="score">0/0</div>
+      <b id="scoreLabel">Bom trabalho!</b>
+      <p class="muted" id="scoreText"></p>
+      <button class="primary" onclick="startQuiz()">Fazer outro simulado</button>
+      <button class="secondary" style="width:100%;margin-top:9px" onclick="showPage('home')">Voltar ao início</button>
+    </div>
+  </section>
+
+  <section id="about" class="page">
+    <h2>Sobre o aplicativo</h2>
+    <div class="card">
+      <b>Aprova Concursos — PCPE</b>
+      <p class="muted">Versão inicial de estudo, com questões demonstrativas de múltipla escolha (A–E), gabarito e comentários.</p>
+      <p class="muted"><b>Importante:</b> as questões desta versão são inéditas para treinamento e não são questões oficiais do Cebraspe. Antes de estudar por um edital, confira o conteúdo programático e as retificações na página oficial do concurso.</p>
+      <p><a href="https://www.cebraspe.org.br/concursos/pc_pe_26" target="_blank" rel="noopener">Consultar concurso PCPE no Cebraspe</a></p>
+      <p class="muted">Seus resultados ficam salvos neste navegador, neste aparelho.</p>
+    </div>
+  </section>
+  <footer>APROVA CONCURSOS • Versão demonstrativa gratuita</footer>
+</main>
+<nav class="nav">
+  <button onclick="showPage('home')"><strong>⌂</strong>Início</button>
+  <button onclick="showPage('subjects')"><strong>▤</strong>Matérias</button>
+  <button onclick="startQuiz()"><strong>✎</strong>Simulado</button>
+  <button onclick="showPage('about')"><strong>ⓘ</strong>Sobre</button>
+</nav>
+<script>
+const subjects=[
+ ["Língua Portuguesa","📖"],["Direito Constitucional","⚖️"],["Direito Administrativo","🏛️"],
+ ["Direito Penal","🔎"],["Direito Processual Penal","📋"],["Informática","💻"],
+ ["Raciocínio Lógico","🧠"],["Contabilidade Geral","📊"],["Estatística","📈"],["Legislação Estadual","📚"]
+];
+const questions=[
+ {s:"Direito Constitucional",q:"De acordo com a Constituição Federal, a segurança pública é:",o:["Responsabilidade exclusiva da União.","Dever do Estado, direito e responsabilidade de todos.","Responsabilidade exclusiva das polícias estaduais.","Dever exclusivo dos municípios.","Responsabilidade apenas das Forças Armadas."],a:1,e:"O art. 144 da Constituição Federal estabelece que a segurança pública é dever do Estado, direito e responsabilidade de todos."},
+ {s:"Direito Administrativo",q:"São princípios expressamente previstos no caput do art. 37 da Constituição Federal:",o:["Legalidade, impessoalidade, moralidade, publicidade e eficiência.","Hierarquia, disciplina, sigilo, pessoalidade e eficiência.","Legalidade, igualdade, sigilo, autoridade e moralidade.","Publicidade, pessoalidade, hierarquia, eficiência e disciplina.","Moralidade, proporcionalidade, sigilo, autoridade e publicidade."],a:0,e:"O art. 37 apresenta os princípios conhecidos pela sigla LIMPE: legalidade, impessoalidade, moralidade, publicidade e eficiência."},
+ {s:"Direito Penal",q:"Segundo o Código Penal, considera-se praticado o crime no momento:",o:["Do resultado.","Da denúncia.","Da sentença.","Da ação ou omissão, ainda que outro seja o momento do resultado.","Da instauração do inquérito policial."],a:3,e:"O art. 4º do Código Penal adota a teoria da atividade para determinar o tempo do crime."},
+ {s:"Direito Processual Penal",q:"De acordo com o Código de Processo Penal, a autoridade policial:",o:["Pode arquivar diretamente o inquérito policial.","Pode condenar o investigado.","Pode determinar prisão definitiva.","Pode substituir o Ministério Público na denúncia.","Não pode mandar arquivar os autos do inquérito policial."],a:4,e:"O art. 17 do CPP estabelece que a autoridade policial não poderá mandar arquivar autos de inquérito."},
+ {s:"Língua Portuguesa",q:"Assinale a alternativa correta quanto à concordância verbal:",o:["Houveram muitas ocorrências policiais.","Fazem dois anos que ele estuda.","Houve muitas ocorrências policiais.","Existe muitas investigações em andamento.","Haviam muitos agentes na delegacia."],a:2,e:"O verbo haver, no sentido de existir, é impessoal e permanece na terceira pessoa do singular: houve muitas ocorrências."},
+ {s:"Informática",q:"Em um navegador de internet, a função principal do modo de navegação privativa é:",o:["Tornar o usuário completamente anônimo na internet.","Impedir qualquer monitoramento pelo provedor.","Evitar que determinados dados da sessão sejam salvos localmente após seu encerramento.","Eliminar vírus automaticamente.","Criptografar todos os arquivos do computador."],a:2,e:"A navegação privativa reduz o armazenamento local de histórico, cookies e dados da sessão. Ela não garante anonimato nem impede o monitoramento externo."},
+ {s:"Raciocínio Lógico",q:"Se todo agente é servidor público e alguns servidores públicos são estudantes, é correto concluir necessariamente que:",o:["Todo agente é estudante.","Nenhum agente é estudante.","Alguns agentes são estudantes.","Todo agente é servidor público.","Todo estudante é agente."],a:3,e:"A primeira premissa afirma diretamente que todo agente é servidor público. Não há informação suficiente para concluir que agentes sejam estudantes."}
+];
+let current=[],idx=0,chosen=null,correct=0,answered=0,selectedSubject=null;
+let stats=JSON.parse(localStorage.getItem("aprovaStats")||'{"total":0,"hits":0}');
+function saveStats(){localStorage.setItem("aprovaStats",JSON.stringify(stats));updateStats()}
+function updateStats(){document.getElementById("total").textContent=stats.total;document.getElementById("hits").textContent=stats.hits;let r=stats.total?Math.round(stats.hits/stats.total*100):0;document.getElementById("rate").textContent=r+"%";document.getElementById("rate2").textContent=r+"%";document.getElementById("bar").style.width=r+"%";document.getElementById("progressText").textContent=stats.total?`Você acertou ${stats.hits} de ${stats.total} questões respondidas.`:"Responda questões para acompanhar seu desempenho."}
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0)}
+function renderSubjects(){let html=subjects.map(([s,em])=>`<div class="subject"><span>${em} &nbsp; ${s}</span><button class="secondary" onclick="startQuiz('${s.replace(/'/g,"\\'")}')">Estudar</button></div>`).join("");document.getElementById("subjectList").innerHTML=html;document.getElementById("homeSubjects").innerHTML=subjects.slice(0,6).map(([s,em])=>`<button class="tile" onclick="startQuiz('${s.replace(/'/g,"\\'")}')"><span class="emoji">${em}</span><b>${s}</b><small>Praticar questões</small></button>`).join("")}
+function startQuiz(subject=null){selectedSubject=subject;let pool=subject?questions.filter(q=>q.s===subject):questions.slice();if(!pool.length){alert("Ainda estamos preparando questões desta matéria. Escolha outra disciplina.");return}current=pool.sort(()=>Math.random()-.5).slice(0,Math.min(5,pool.length));idx=0;correct=0;answered=0;chosen=null;showPage("quiz");renderQuestion()}
+function renderQuestion(){let q=current[idx];chosen=null;document.getElementById("quizSubject").textContent=q.s;document.getElementById("counter").textContent=`Questão ${idx+1} de ${current.length}`;document.getElementById("quizBar").style.width=(idx/current.length*100)+"%";document.getElementById("questionText").textContent=q.q;document.getElementById("feedback").classList.add("hidden");document.getElementById("nextBtn").classList.add("hidden");let b=document.getElementById("answerBtn");b.classList.remove("hidden");b.disabled=true;b.textContent="Confirmar resposta";document.getElementById("options").innerHTML=q.o.map((o,i)=>`<button class="option" onclick="selectOption(${i})"><span class="letter">${"ABCDE"[i]})</span><span>${o}</span></button>`).join("")}
+function selectOption(i){if(answered)return;chosen=i;document.querySelectorAll(".option").forEach((el,j)=>el.classList.toggle("selected",i===j));document.getElementById("answerBtn").disabled=false}
+function answerQuestion(){if(chosen===null)return;let q=current[idx];answered++;stats.total++;if(chosen===q.a){correct++;stats.hits++}saveStats();document.querySelectorAll(".option").forEach((el,j)=>{el.disabled=true;if(j===q.a)el.style.borderColor="#168454";if(j===chosen&&j!==q.a)el.style.borderColor="#c43d45"});let f=document.getElementById("feedback");f.innerHTML=`<b>${chosen===q.a?"✅ Resposta correta!":"❌ Resposta incorreta."}</b><br><b>Gabarito: ${"ABCDE"[q.a]}</b><br>${q.e}`;f.classList.remove("hidden");document.getElementById("answerBtn").classList.add("hidden");let n=document.getElementById("nextBtn");n.classList.remove("hidden");n.textContent=idx===current.length-1?"Ver resultado":"Próxima questão"}
+function nextQuestion(){if(idx<current.length-1){idx++;renderQuestion()}else{document.getElementById("score").textContent=`${correct}/${current.length}`;document.getElementById("scoreLabel").textContent=correct===current.length?"Excelente desempenho!":correct>=Math.ceil(current.length*.6)?"Bom trabalho!":"Continue praticando!";document.getElementById("scoreText").textContent=`Você acertou ${correct} de ${current.length} questões neste simulado.`;showPage("results")}}
+renderSubjects();updateStats();
+</script>
+
+<script>
+let deferredInstallPrompt = null;
+const installButton = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installButton.classList.remove('hidden');
+});
+async function installApp() {
+  if (!deferredInstallPrompt) {
+    alert('Para instalar: abra o menu do navegador e escolha "Adicionar à tela inicial" ou "Instalar aplicativo".');
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installButton.classList.add('hidden');
+}
+window.addEventListener('appinstalled', () => installButton.classList.add('hidden'));
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+</script>
+
+</body>
+</html>
